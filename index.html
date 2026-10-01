@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Music Studio V6 — Генератор Музыки</title>
+    <style>
+        :root {
+            --bg-color: #0b0f19;
+            --card-bg: #161e2e;
+            --accent-gradient: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+            --accent-hover: linear-gradient(135deg, #4f46e5 0%, #9333ea 100%);
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --border-color: #243044;
+            --badge-bg: #2e1065;
+            --badge-text: #d8b4fe;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .studio-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 2.5rem;
+            width: 100%;
+            max-width: 640px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .title {
+            font-size: 1.75rem;
+            font-weight: 700;
+            background: var(--accent-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .version-tag {
+            background-color: var(--badge-bg);
+            color: var(--badge-text);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            border: 1px solid #7e22ce;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--text-muted);
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+
+        textarea, select, input[type="text"] {
+            width: 100%;
+            padding: 0.85rem;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            background-color: #0f172a;
+            color: var(--text-main);
+            font-size: 0.95rem;
+            transition: all 0.2s ease;
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        textarea:focus, select:focus, input[type="text"]:focus {
+            outline: none;
+            border-color: #8b5cf6;
+            box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.2);
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .btn-generate {
+            width: 100%;
+            padding: 1rem;
+            background: var(--accent-gradient);
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.1s ease, opacity 0.2s ease;
+            margin-top: 1rem;
+        }
+
+        .btn-generate:hover {
+            background: var(--accent-hover);
+        }
+
+        .btn-generate:active {
+            transform: scale(0.99);
+        }
+
+        .loader {
+            display: none;
+            text-align: center;
+            margin-top: 1.5rem;
+        }
+
+        .spinner {
+            width: 36px;
+            height: 36px;
+            border: 3px solid rgba(255,255,255,0.1);
+            border-radius: 50%;
+            border-top-color: #a855f7;
+            animation: spin 1s ease-in-out infinite;
+            margin: 0 auto 0.75rem auto;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .result-panel {
+            display: none;
+            margin-top: 1.5rem;
+            padding: 1.25rem;
+            background-color: #0f172a;
+            border-radius: 10px;
+            border: 1px solid var(--border-color);
+        }
+
+        .track-info {
+            margin-bottom: 0.75rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .track-title {
+            font-weight: 600;
+            font-size: 1rem;
+        }
+
+        .audio-player {
+            width: 100%;
+            border-radius: 6px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="studio-card">
+        <div class="header">
+            <h1 class="title">AI Music Studio</h1>
+            <span class="version-tag">Engine v6.0 Pro</span>
+        </div>
+
+        <div class="form-group">
+            <label for="model">Движок генерации</label>
+            <select id="model">
+                <option value="v6-ultra">v6.0 Ultra Natural (Студийный вокал & Живой звук)</option>
+                <option value="v6-instrumental">v6.0 Instrumental HD (Без вокала / Живые инструменты)</option>
+                <option value="v5-standard">v5.2 Fast Draft (Быстрый набросок)</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="prompt">Описание трека и концепция</label>
+            <textarea id="prompt" placeholder="например: 'Драйвовый Tech-House с глубоким басом, атмосферными синтезаторами и ритмичным мужским вокалом'"></textarea>
+        </div>
+
+        <div class="form-group">
+            <label for="styleCustom">Кастомные стили, жанры и инструменты</label>
+            <input type="text" id="styleCustom" placeholder="например: 'Deep House, Tech-House, Future Bass, 808 bass, piano, vocal chops'">
+        </div>
+
+        <div class="grid-2">
+            <div class="form-group">
+                <label for="mood">Настроение</label>
+                <select id="mood">
+                    <option value="energetic">Энергичное</option>
+                    <option value="calm">Спокойное</option>
+                    <option value="melancholic">Меланхоличное</option>
+                    <option value="dark">Мрачное</option>
+                    <option value="happy">Веселое</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="bpm">Темп (BPM)</label>
+                <input type="text" id="bpm" placeholder="Авто (напр. 126)">
+            </div>
+        </div>
+
+        <button class="btn-generate" id="generateBtn" onclick="createMusicTrack()">Сгенерировать трек (v6 engine)</button>
+
+        <div class="loader" id="loader">
+            <div class="spinner"></div>
+            <p style="color: var(--text-muted); font-size: 0.9rem;">ИИ v6 синтезирует инструменты и вокал...</p>
+        </div>
+
+        <div class="result-panel" id="resultArea">
+            <div class="track-info">
+                <span class="track-title" id="outputTrackTitle">Сгенерированный Трек</span>
+                <span style="font-size: 0.75rem; color: #34d399;">HQ 320 kbps</span>
+            </div>
+            <audio id="audioPlayer" class="audio-player" controls></audio>
+        </div>
+    </div>
+
+    <script>
+        function createMusicTrack() {
+            const btn = document.getElementById('generateBtn');
+            const loader = document.getElementById('loader');
+            const resultArea = document.getElementById('resultArea');
+            const audioPlayer = document.getElementById('audioPlayer');
+            const promptText = document.getElementById('prompt').value;
+            const styleCustom = document.getElementById('styleCustom').value;
+            const trackTitle = document.getElementById('outputTrackTitle');
+
+            if (!promptText.trim() && !styleCustom.trim()) {
+                alert('Пожалуйста, введите описание трека или укажите стиль.');
+                return;
+            }
+
+            btn.disabled = true;
+            btn.style.opacity = '0.5';
+            loader.style.display = 'block';
+            resultArea.style.display = 'none';
+
+            setTimeout(() => {
+                audioPlayer.src = 'https://www.w3schools.com/tags/horse.ogg'; 
+                const displayStyle = styleCustom ? styleCustom : 'Custom Mix';
+                trackTitle.textContent = `${displayStyle} — Master V6`;
+
+                loader.style.display = 'none';
+                resultArea.style.display = 'block';
+                btn.disabled = false;
+                btn.style.opacity = '1';
+                audioPlayer.play();
+            }, 3000);
+        }
+    </script>
+</body>
+</html>
