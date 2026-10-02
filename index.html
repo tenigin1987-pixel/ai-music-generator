@@ -1,0 +1,1091 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dj Tenigin | AI HIT STUDIO</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,500;0,700;0,900;1,900&family=Orbitron:wght@500;700;900&family=Rajdhani:wght@600;700&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        clubBg: '#08090d',
+                        clubCard: '#11131c',
+                        neonPurple: '#9d4edd',
+                        neonCyan: '#00f5d4',
+                        neonPink: '#ff007f',
+                        neonYellow: '#ffee32',
+                    },
+                    fontFamily: {
+                        orbitron: ['Orbitron', 'sans-serif'],
+                        montserrat: ['Montserrat', 'sans-serif'],
+                        rajdhani: ['Rajdhani', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            background-color: #08090d;
+            color: #e2e8f0;
+            font-family: 'Montserrat', sans-serif;
+            overflow-x: hidden;
+        }
+
+        /* Neon Glow Effects */
+        .neon-glow-purple {
+            box-shadow: 0 0 25px rgba(157, 78, 221, 0.4), inset 0 0 10px rgba(157, 78, 221, 0.2);
+        }
+        .neon-glow-cyan {
+            box-shadow: 0 0 25px rgba(0, 245, 212, 0.4), inset 0 0 10px rgba(0, 245, 212, 0.2);
+        }
+        .neon-glow-pink {
+            box-shadow: 0 0 25px rgba(255, 0, 127, 0.4), inset 0 0 10px rgba(255, 0, 127, 0.2);
+        }
+
+        .text-glow-cyan {
+            text-shadow: 0 0 10px #00f5d4, 0 0 20px #00f5d4;
+        }
+        .text-glow-pink {
+            text-shadow: 0 0 10px #ff007f, 0 0 20px #ff007f;
+        }
+        .text-glow-purple {
+            text-shadow: 0 0 10px #9d4edd, 0 0 25px #9d4edd;
+        }
+
+        /* Glassmorphism */
+        .glass-panel {
+            background: rgba(17, 19, 28, 0.75);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #08090d;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #2a2e3d;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #9d4edd;
+        }
+
+        /* Laser Light Animations */
+        @keyframes laserSweep {
+            0% { transform: rotate(-30deg) scaleY(1); opacity: 0.3; }
+            50% { transform: rotate(30deg) scaleY(1.3); opacity: 0.7; }
+            100% { transform: rotate(-30deg) scaleY(1); opacity: 0.3; }
+        }
+
+        .laser-beam {
+            position: fixed;
+            top: -20%;
+            left: 50%;
+            width: 400px;
+            height: 140vh;
+            background: linear-gradient(180deg, rgba(157, 78, 221, 0.15) 0%, rgba(0, 245, 212, 0.05) 50%, transparent 100%);
+            transform-origin: top center;
+            pointer-events: none;
+            z-index: 0;
+            animation: laserSweep 8s infinite ease-in-out;
+        }
+
+        .laser-beam-2 {
+            animation-delay: -4s;
+            background: linear-gradient(180deg, rgba(255, 0, 127, 0.15) 0%, rgba(157, 78, 221, 0.05) 50%, transparent 100%);
+        }
+
+        @keyframes pulseGlow {
+            0%, 100% { opacity: 0.6; filter: brightness(1); }
+            50% { opacity: 1; filter: brightness(1.3); }
+        }
+
+        .pulse-neon {
+            animation: pulseGlow 2.5s infinite ease-in-out;
+        }
+
+        /* Equalizer Bar Animation */
+        @keyframes eqBar {
+            0%, 100% { height: 15%; }
+            50% { height: 95%; }
+        }
+        .eq-animated-bar {
+            animation: eqBar 0.8s infinite ease-in-out alternate;
+        }
+
+        /* Custom Range Input */
+        input[type=range] {
+            -webkit-appearance: none;
+            background: #1a1d28;
+            height: 8px;
+            border-radius: 4px;
+        }
+        input[type=range]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            height: 18px;
+            width: 18px;
+            border-radius: 50%;
+            background: #00f5d4;
+            box-shadow: 0 0 10px #00f5d4;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body class="relative min-h-screen pb-12 selection:bg-neonPink selection:text-white">
+
+    <!-- Laser Lights Background -->
+    <div class="laser-beam"></div>
+    <div class="laser-beam laser-beam-2"></div>
+
+    <!-- Header -->
+    <header class="sticky top-0 z-40 glass-panel border-b border-purple-900/30 px-4 lg:px-8 py-3.5">
+        <div class="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-4">
+            
+            <!-- Logo -->
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-neonPurple via-neonPink to-neonCyan flex items-center justify-center shadow-lg shadow-purple-900/50 pulse-neon">
+                    <i class="fa-solid fa-compact-disc text-xl text-black animate-spin" style="animation-duration: 8s;"></i>
+                </div>
+                <div>
+                    <h1 class="font-orbitron font-extrabold text-lg sm:text-xl tracking-wider text-white flex items-center gap-2">
+                        DJ TENIGIN <span class="text-xs px-2 py-0.5 rounded bg-neonPurple/20 text-neonCyan border border-neonCyan/30 font-rajdhani">AI STUDIO</span>
+                    </h1>
+                    <p class="text-[10px] text-gray-400 tracking-widest uppercase">Next-Gen Club Music Generator</p>
+                </div>
+            </div>
+
+            <!-- User Balance & Actions -->
+            <div class="flex items-center gap-3 sm:gap-4 flex-wrap">
+                <!-- Balance Badge -->
+                <div class="flex items-center gap-2 bg-black/60 border border-purple-500/30 rounded-xl px-3 py-1.5 text-xs font-medium">
+                    <div class="flex flex-col text-right">
+                        <span class="text-gray-400 text-[10px]">Баланс:</span>
+                        <div class="flex items-center gap-2">
+                            <span id="header-rubles" class="text-neonCyan font-bold">300 ₽</span>
+                            <span class="text-gray-600">|</span>
+                            <span id="header-points" class="text-neonPink font-bold">30 б.</span>
+                        </div>
+                    </div>
+                    <button onclick="openTopUpModal()" class="ml-1 bg-neonPurple/20 hover:bg-neonPurple/40 text-neonPurple hover:text-white p-2 rounded-lg border border-neonPurple/40 transition-all duration-200" title="Пополнить баланс">
+                        <i class="fa-solid fa-plus text-xs"></i>
+                    </button>
+                </div>
+
+                <!-- Top Up Main Button -->
+                <button onclick="openTopUpModal()" class="hidden sm:flex items-center gap-2 bg-gradient-to-r from-neonPurple to-neonPink hover:from-purple-600 hover:to-pink-600 text-white font-bold text-xs px-4 py-2.5 rounded-xl shadow-lg shadow-purple-900/40 hover:shadow-neonPurple/50 transition-all duration-300">
+                    <i class="fa-solid fa-wallet"></i>
+                    <span>Пополнить</span>
+                </button>
+
+                <!-- Profile / Auth Button -->
+                <button id="auth-btn" onclick="openAuthModal()" class="flex items-center gap-2 glass-panel hover:bg-white/10 text-white font-medium text-xs px-3.5 py-2.5 rounded-xl border border-gray-700 transition-all">
+                    <i id="auth-icon" class="fa-solid fa-user text-neonCyan"></i>
+                    <span id="auth-username">Вход</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content Container -->
+    <main class="relative z-10 max-w-7xl mx-auto px-4 lg:px-8 pt-6 space-y-8">
+
+        <!-- Hero Promo Banner -->
+        <div class="relative overflow-hidden rounded-3xl glass-panel p-6 sm:p-8 border border-purple-500/30 neon-glow-purple">
+            <div class="absolute -right-10 -bottom-10 w-72 h-72 bg-neonPink/10 rounded-full blur-3xl pointer-events-none"></div>
+            <div class="absolute -left-10 -top-10 w-72 h-72 bg-neonCyan/10 rounded-full blur-3xl pointer-events-none"></div>
+            
+            <div class="relative z-10 max-w-3xl space-y-3">
+                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-neonPink/20 border border-neonPink/40 text-neonPink text-xs font-bold font-rajdhani uppercase tracking-wider">
+                    <i class="fa-solid fa-bolt animate-bounce"></i> Powered by Gemini AI & Web Synth
+                </div>
+                <h2 class="text-2xl sm:text-4xl font-orbitron font-extrabold text-white leading-tight">
+                    Создай взрывной клаб-хит за <span class="text-transparent bg-clip-text bg-gradient-to-r from-neonCyan via-neonPurple to-neonPink">несколько секунд</span>
+                </h2>
+                <p class="text-gray-300 text-xs sm:text-sm leading-relaxed">
+                    Преврати свои слова или идею в профессиональный клубный трек. Нейросеть сформирует идеальную аранжировку, текст и продакшн-стиль, а встроенный аудио-движок синтезирует звук прямо в твоем браузере.
+                </p>
+            </div>
+        </div>
+
+        <!-- STUDIO GENERATOR GRID -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+
+            <!-- LEFT FORM COLUMN: Settings & Inputs -->
+            <div class="lg:col-span-7 space-y-6">
+                
+                <div class="glass-panel rounded-3xl p-6 sm:p-7 space-y-6 border border-gray-800">
+                    <div class="flex items-center justify-between border-b border-gray-800 pb-4">
+                        <div class="flex items-center gap-3">
+                            <i class="fa-solid fa-sliders text-neonCyan text-xl"></i>
+                            <h3 class="font-orbitron font-bold text-lg text-white tracking-wide">Параметры трека</h3>
+                        </div>
+                        <span class="text-xs text-gray-400 bg-black/40 px-3 py-1 rounded-full border border-gray-800">
+                            Стоимость: <strong class="text-neonCyan">100 ₽</strong> (10 б.)
+                        </span>
+                    </div>
+
+                    <!-- Song Idea / Lyrics Input -->
+                    <div class="space-y-2">
+                        <div class="flex justify-between items-center">
+                            <label class="text-xs font-bold uppercase tracking-wider text-gray-300 flex items-center gap-2">
+                                <i class="fa-solid fa-align-left text-neonPurple"></i> Текст песни или Идея
+                            </label>
+                            <button type="button" onclick="generateAiIdea()" class="text-[11px] text-neonCyan hover:underline flex items-center gap-1">
+                                <i class="fa-solid fa-wand-magic-sparkles"></i> Придумать идею (ИИ)
+                            </button>
+                        </div>
+                        <textarea id="song-lyrics" rows="4" placeholder="Введите слова вашей песни, куплеты или кратко опишите тему (например: Ночной мегаполис, неоновый свет, бесконечные танцы до рассвета)..." class="w-full bg-black/50 border border-gray-800 focus:border-neonPurple rounded-2xl p-4 text-sm text-white placeholder-gray-500 focus:outline-none focus:ring-1 focus:ring-neonPurple transition-all"></textarea>
+                    </div>
+
+                    <!-- Genre Preset Selection -->
+                    <div class="space-y-3">
+                        <label class="text-xs font-bold uppercase tracking-wider text-gray-300 flex items-center gap-2">
+                            <i class="fa-solid fa-music text-neonPink"></i> Музыкальный стиль
+                        </label>
+                        <div class="grid grid-cols-2 sm:grid-cols-3 gap-2.5" id="genre-container">
+                            <!-- Genre Buttons populated by JS -->
+                        </div>
+                        <div class="pt-2">
+                            <input type="text" id="custom-style" placeholder="Или укажите собственный стиль (например: Cyberpunk Synthwave 80s)" class="w-full bg-black/40 border border-gray-800 focus:border-neonPink rounded-xl px-4 py-2.5 text-xs text-white placeholder-gray-500 focus:outline-none">
+                        </div>
+                    </div>
+
+                    <!-- BPM & Mood Controls -->
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-5 pt-2">
+                        <!-- BPM Slider -->
+                        <div class="space-y-2 bg-black/30 p-4 rounded-2xl border border-gray-800/80">
+                            <div class="flex justify-between text-xs font-bold">
+                                <span class="text-gray-300">Темп (BPM):</span>
+                                <span id="bpm-val" class="text-neonCyan font-orbitron">128 BPM</span>
+                            </div>
+                            <input type="range" id="bpm-slider" min="100" max="170" value="128" oninput="updateBpm(this.value)" class="w-full">
+                            <div class="flex justify-between text-[10px] text-gray-500 font-mono">
+                                <span>100 Deep</span>
+                                <span>128 House</span>
+                                <span>170 Dubstep</span>
+                            </div>
+                        </div>
+
+                        <!-- Mood Selector -->
+                        <div class="space-y-2 bg-black/30 p-4 rounded-2xl border border-gray-800/80">
+                            <label class="text-xs font-bold text-gray-300 block">Настроение / Вайб:</label>
+                            <select id="mood-select" class="w-full bg-black/60 border border-gray-800 focus:border-neonCyan rounded-xl px-3 py-2 text-xs text-white focus:outline-none">
+                                <option value="Energetic & Peak Time">🔥 Энергичный Peak-Time</option>
+                                <option value="Dark Neon & Hypnotic">🌙 Тёмный Неоновый & Гипнотический</option>
+                                <option value="Melodic & Atmospheric">✨ Мелодичный & Атмосферный</option>
+                                <option value="Aggressive & Heavy">⚡ Агрессивный & Мощный</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Key Instruments Selection -->
+                    <div class="space-y-2">
+                        <label class="text-xs font-bold uppercase tracking-wider text-gray-300 flex items-center gap-2">
+                            <i class="fa-solid fa-guitar text-neonYellow"></i> Акцентные инструменты
+                        </label>
+                        <div class="flex flex-wrap gap-2" id="instruments-container">
+                            <!-- Populated by JS -->
+                        </div>
+                    </div>
+
+                    <!-- Submit Button -->
+                    <div class="pt-2">
+                        <button id="generate-btn" onclick="startHitGeneration()" class="w-full relative group overflow-hidden bg-gradient-to-r from-neonPurple via-neonPink to-neonCyan p-[2px] rounded-2xl shadow-xl shadow-purple-900/40 hover:shadow-neonPurple/60 transition-all duration-300">
+                            <div class="bg-black/80 group-hover:bg-black/40 rounded-[14px] py-4 px-6 flex items-center justify-center gap-3 transition-all duration-300">
+                                <i class="fa-solid fa-bolt text-neonCyan text-xl group-hover:scale-125 transition-transform"></i>
+                                <span class="font-orbitron font-extrabold text-sm sm:text-base text-white tracking-wider uppercase">
+                                    Сгенерировать хит (100 ₽ / 10 баллов)
+                                </span>
+                            </div>
+                        </button>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- RIGHT STUDIO COLUMN: AI DJ Console & Audio Visualizer Deck -->
+            <div class="lg:col-span-5 space-y-6">
+
+                <!-- Audio Visualizer & Player Deck -->
+                <div class="glass-panel rounded-3xl p-6 border border-purple-500/20 space-y-6 relative overflow-hidden">
+                    <div class="flex items-center justify-between border-b border-gray-800 pb-3">
+                        <div class="flex items-center gap-2">
+                            <div class="w-3 h-3 rounded-full bg-neonCyan animate-ping"></div>
+                            <h3 class="font-orbitron font-bold text-sm text-white">DJ DECK & VISUALIZER</h3>
+                        </div>
+                        <span id="player-status-badge" class="text-[10px] font-mono uppercase bg-neonPurple/20 text-neonPurple border border-neonPurple/40 px-2 py-0.5 rounded">
+                            Ожидание
+                        </span>
+                    </div>
+
+                    <!-- Visualizer Canvas -->
+                    <div class="relative bg-black/80 rounded-2xl h-48 border border-gray-800 flex items-center justify-center overflow-hidden">
+                        <canvas id="visualizer-canvas" class="w-full h-full absolute inset-0"></canvas>
+                        
+                        <!-- Initial Placeholder overlay -->
+                        <div id="visualizer-placeholder" class="relative z-10 text-center p-4 space-y-2">
+                            <i class="fa-solid fa-wave-square text-4xl text-gray-700 animate-pulse"></i>
+                            <p class="text-xs text-gray-500">Запустите генерацию, чтобы активировать звуковой движок и визуализацию</p>
+                        </div>
+
+                        <!-- Generation Progress Overlay -->
+                        <div id="generation-loader" class="hidden absolute inset-0 bg-black/90 z-20 flex flex-col items-center justify-center space-y-4 p-4 text-center">
+                            <div class="relative w-16 h-16 flex items-center justify-center">
+                                <div class="absolute inset-0 rounded-full border-4 border-neonPurple/20 border-t-neonCyan animate-spin"></div>
+                                <i class="fa-solid fa-compact-disc text-2xl text-neonPink animate-bounce"></i>
+                            </div>
+                            <div class="space-y-1">
+                                <p id="loader-step-text" class="text-xs font-bold text-neonCyan font-orbitron">ИИ ГЕНЕРИРУЕТ СТРУКТУРУ...</p>
+                                <p class="text-[10px] text-gray-400">Синтез бита, баса и аранжировки</p>
+                            </div>
+                            <!-- Equalizer simulation -->
+                            <div class="flex items-end gap-1 h-8">
+                                <div class="w-1 bg-neonPurple rounded-t eq-animated-bar" style="animation-delay: 0.1s"></div>
+                                <div class="w-1 bg-neonCyan rounded-t eq-animated-bar" style="animation-delay: 0.3s"></div>
+                                <div class="w-1 bg-neonPink rounded-t eq-animated-bar" style="animation-delay: 0.2s"></div>
+                                <div class="w-1 bg-neonYellow rounded-t eq-animated-bar" style="animation-delay: 0.5s"></div>
+                                <div class="w-1 bg-neonPurple rounded-t eq-animated-bar" style="animation-delay: 0.4s"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Audio Player Controls -->
+                    <div class="space-y-4 bg-black/40 p-4 rounded-2xl border border-gray-800">
+                        <div class="flex items-center justify-between text-xs text-gray-400 font-mono">
+                            <span id="now-playing-title" class="truncate font-bold text-white max-w-[180px]">Трек не выбран</span>
+                            <span id="audio-time">00:00 / 00:30</span>
+                        </div>
+
+                        <!-- Progress Bar -->
+                        <div class="relative w-full h-2 bg-gray-800 rounded-full overflow-hidden cursor-pointer" onclick="seekAudio(event)" id="progress-container">
+                            <div id="audio-progress" class="h-full bg-gradient-to-r from-neonPurple to-neonCyan w-0 transition-all duration-100"></div>
+                        </div>
+
+                        <!-- Buttons Row -->
+                        <div class="flex items-center justify-between pt-1">
+                            <div class="flex items-center gap-3">
+                                <button id="play-pause-btn" onclick="togglePlay()" disabled class="w-12 h-12 rounded-full bg-gradient-to-tr from-neonPurple to-neonPink text-black font-bold flex items-center justify-center shadow-lg disabled:opacity-50 disabled:cursor-not-allowed hover:scale-105 transition">
+                                    <i id="play-icon" class="fa-solid fa-play text-lg ml-0.5"></i>
+                                </button>
+                                <button id="stop-btn" onclick="stopAudio()" disabled class="w-9 h-9 rounded-xl bg-gray-800 hover:bg-gray-700 text-gray-300 flex items-center justify-center disabled:opacity-50">
+                                    <i class="fa-solid fa-stop text-xs"></i>
+                                </button>
+                            </div>
+
+                            <!-- Download Button -->
+                            <button id="download-btn" onclick="downloadSyntheticTrack()" disabled class="flex items-center gap-2 bg-neonCyan/20 hover:bg-neonCyan/30 text-neonCyan border border-neonCyan/40 px-3.5 py-2 rounded-xl text-xs font-bold transition disabled:opacity-40 disabled:cursor-not-allowed">
+                                <i class="fa-solid fa-download"></i>
+                                <span>Скачать трек</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- AI Production Output Info Card -->
+                    <div id="ai-output-card" class="hidden space-y-3 bg-black/60 p-4 rounded-2xl border border-purple-900/40 text-xs">
+                        <div class="flex justify-between items-center border-b border-gray-800 pb-2">
+                            <span class="font-orbitron font-bold text-neonCyan">АРРАНЖИРОВКА ОТ DJ TENIGIN</span>
+                            <span id="ai-genre-badge" class="text-[10px] bg-neonPink/20 text-neonPink px-2 py-0.5 rounded border border-neonPink/30">House</span>
+                        </div>
+                        <div class="space-y-2">
+                            <div>
+                                <p class="text-gray-400 font-bold text-[10px] uppercase">Сгенерированные стихи / Лирика:</p>
+                                <p id="ai-generated-lyrics" class="text-gray-200 italic bg-black/40 p-2.5 rounded-xl border border-gray-800/80 mt-1 max-h-32 overflow-y-auto whitespace-pre-line"></p>
+                            </div>
+                            <div>
+                                <p class="text-gray-400 font-bold text-[10px] uppercase">Совет по сведению:</p>
+                                <p id="ai-mixing-tip" class="text-neonCyan/90 mt-0.5"></p>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Info Box -->
+                <div class="glass-panel rounded-3xl p-5 border border-gray-800 text-xs space-y-3 text-gray-400">
+                    <div class="flex items-center gap-2 text-white font-bold font-orbitron">
+                        <i class="fa-solid fa-circle-info text-neonCyan"></i> Как это работает?
+                    </div>
+                    <ul class="space-y-1.5 list-disc list-inside">
+                        <li>Каждая генерация стоит <strong class="text-white">100 рублей (10 баллов)</strong>.</li>
+                        <li>ИИ Gemini формирует структуру и рифмы профессионального качества.</li>
+                        <li>Встроенный Web Audio движок синтезирует бит в выбранном жанре.</li>
+                    </ul>
+                </div>
+
+            </div>
+
+        </div>
+
+    </main>
+
+    <!-- MODAL 1: AUTHENTICATION / REGISTRATION -->
+    <div id="auth-modal" class="hidden fixed inset-0 z-50 bg-black/80 backdrop-blur-md flex items-center justify-center p-4">
+        <div class="glass-panel w-full max-w-md rounded-3xl p-6 sm:p-8 border border-purple-500/30 neon-glow-purple space-y-6 relative">
+            <button onclick="closeAuthModal()" class="absolute top-5 right-5 text-gray-400 hover:text-white">
+                <i class="fa-solid fa-xmark text-lg"></i>
+            </button>
+
+            <div class="text-center space-y-1">
+                <h3 class="font-orbitron font-extrabold text-xl text-white">Вход / Регистрация</h3>
+                <p class="text-xs text-gray-400">Создайте аккаунт для сохранения баланса</p>
+            </div>
+
+            <form id="auth-form" onsubmit="handleAuthSubmit(event)" class="space-y-4">
+                <div class="space-y-1">
+                    <label class="text-xs text-gray-300 font-bold">Имя пользователя</label>
+                    <input type="text" id="auth-name-input" required placeholder="DJ Producer" class="w-full bg-black/60 border border-gray-800 focus:border-neonCyan rounded-xl px-4 py-3 text-sm text-white focus:outline-none">
+                </div>
+                <div class="space-y-1">
+                    <label class="text-xs text-gray-300 font-bold">Email</label>
+                    <input type="email" id="auth-email-input" required placeholder="producer@club.ru" class="w-full bg-black/60 border border-gray-800 focus:border-neonCyan rounded-xl px-4 py-3 text-sm text-white focus:outline-none">
+                </div>
+                <div class="space-y-1">
+                    <label class="text-xs text-gray-300 font-bold">Пароль</label>
+                    <input type="password" required placeholder="••••••••" class="w-full bg-black/60 border border-gray-800 focus:border-neonCyan rounded-xl px-4 py-3 text-sm text-white focus:outline-none">
+                </div>
+
+                <button type="submit" class="w-full bg-gradient-to-r from-neonPurple to-neonPink hover:from-purple-600 hover:to-pink-600 font-orbitron font-bold text-white text-sm py-3.5 rounded-xl shadow-lg transition">
+                    Сохранить и войти
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL 2: TOP-UP BALANCE (SBERBANK STYLED CARD PAYMENT) -->
+    <div id="topup-modal" class="hidden fixed inset-0 z-50 bg-black/80 backdrop-blur-md flex items-center justify-center p-4 overflow-y-auto">
+        <div class="glass-panel w-full max-w-lg rounded-3xl p-6 sm:p-8 border border-cyan-500/30 neon-glow-cyan space-y-6 relative my-8">
+            <button onclick="closeTopUpModal()" class="absolute top-5 right-5 text-gray-400 hover:text-white">
+                <i class="fa-solid fa-xmark text-lg"></i>
+            </button>
+
+            <!-- Header info -->
+            <div class="space-y-2">
+                <div class="flex items-center gap-2">
+                    <span class="bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 text-[10px] px-2.5 py-0.5 rounded-full font-mono uppercase font-bold">
+                        <i class="fa-solid fa-shield-halved"></i> Безопасный эквайринг SberPay
+                    </span>
+                </div>
+                <h3 class="font-orbitron font-extrabold text-2xl text-white">Пополнение баланса</h3>
+                <p class="text-xs text-gray-400">Курс: <strong class="text-neonCyan">10 рублей = 1 балл</strong>. (1 трек = 100 рублей / 10 баллов)</p>
+            </div>
+
+            <!-- Amount Input & Converter -->
+            <div class="bg-black/50 p-4 rounded-2xl border border-gray-800 space-y-3">
+                <label class="text-xs font-bold text-gray-300 block">Укажите сумму пополнения (в рублях):</label>
+                <div class="relative">
+                    <input type="number" id="ruble-amount-input" min="100" step="50" value="500" oninput="calculatePointsFromInput(this.value)" class="w-full bg-black/80 border border-gray-700 focus:border-neonCyan rounded-xl pl-4 pr-12 py-3 text-lg font-bold text-white focus:outline-none">
+                    <span class="absolute right-4 top-3.5 text-gray-400 font-bold">₽</span>
+                </div>
+                <div class="flex justify-between items-center text-xs pt-1">
+                    <span class="text-gray-400">Вы получите на счет:</span>
+                    <span id="calculated-points-badge" class="font-orbitron font-bold text-neonPink text-sm">50 баллов (5 треков)</span>
+                </div>
+            </div>
+
+            <!-- Masked Card Payment Form -->
+            <div class="space-y-4 pt-2">
+                <p class="text-xs font-bold text-gray-300 uppercase tracking-wider flex items-center gap-2">
+                    <i class="fa-solid fa-credit-card text-emerald-400"></i> Оплата банковской картой
+                </p>
+
+                <!-- Styled Card Container -->
+                <div class="bg-gradient-to-br from-emerald-950 via-gray-900 to-black p-5 rounded-2xl border border-emerald-500/30 space-y-4 shadow-xl">
+                    <div class="flex justify-between items-center">
+                        <span class="text-xs font-bold tracking-widest text-emerald-400 font-mono">SBERBANK / CARD</span>
+                        <i class="fa-brands fa-cc-visa text-2xl text-gray-400"></i>
+                    </div>
+
+                    <!-- Card Number -->
+                    <div class="space-y-1">
+                        <label class="text-[10px] text-gray-400 uppercase font-bold">Номер карты</label>
+                        <input type="text" maxlength="19" placeholder="4276 •••• •••• 9812" value="4276 8800 1234 5678" class="w-full bg-black/70 border border-gray-800 focus:border-emerald-400 rounded-lg px-3 py-2 text-sm text-white font-mono tracking-wider focus:outline-none">
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-3">
+                        <!-- Expiry -->
+                        <div class="space-y-1">
+                            <label class="text-[10px] text-gray-400 uppercase font-bold">Срок действия</label>
+                            <input type="text" maxlength="5" placeholder="MM/YY" value="12/28" class="w-full bg-black/70 border border-gray-800 focus:border-emerald-400 rounded-lg px-3 py-2 text-sm text-white font-mono tracking-wider focus:outline-none">
+                        </div>
+                        <!-- CVC -->
+                        <div class="space-y-1">
+                            <label class="text-[10px] text-gray-400 uppercase font-bold">CVC / CVV</label>
+                            <input type="password" maxlength="3" placeholder="•••" value="888" class="w-full bg-black/70 border border-gray-800 focus:border-emerald-400 rounded-lg px-3 py-2 text-sm text-white font-mono tracking-wider focus:outline-none">
+                        </div>
+                    </div>
+
+                    <!-- Cardholder -->
+                    <div class="space-y-1">
+                        <label class="text-[10px] text-gray-400 uppercase font-bold">Держатель карты</label>
+                        <input type="text" placeholder="CARDHOLDER NAME" value="ALEXANDER TENIGIN" class="w-full bg-black/70 border border-gray-800 focus:border-emerald-400 rounded-lg px-3 py-2 text-xs text-white uppercase font-mono focus:outline-none">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pay Action Button -->
+            <button onclick="processCardPayment()" class="w-full bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-400 hover:to-teal-500 font-orbitron font-extrabold text-black text-sm py-4 rounded-xl shadow-lg shadow-emerald-950 transition flex items-center justify-center gap-2">
+                <i class="fa-solid fa-lock text-xs"></i>
+                <span>Оплатить картой картой Сбер</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- Toast Notification Container -->
+    <div id="toast-container" class="fixed bottom-5 right-5 z-50 space-y-2 pointer-events-none"></div>
+
+    <!-- APPLICATION JAVASCRIPT -->
+    <script>
+        /* -------------------------------------------------------------
+           1. APP STATE & LOCALSTORAGE
+           ------------------------------------------------------------- */
+        let userState = {
+            loggedIn: false,
+            username: 'Гость',
+            email: '',
+            rubles: 300,
+            points: 30
+        };
+
+        const GENRES = [
+            { id: 'techhouse', name: 'Tech House', bpm: 126, color: 'border-neonCyan' },
+            { id: 'deephouse', name: 'Deep House', bpm: 122, color: 'border-neonPurple' },
+            { id: 'futurebass', name: 'Future Bass', bpm: 140, color: 'border-neonPink' },
+            { id: 'dubstep', name: 'Dubstep', bpm: 150, color: 'border-neonYellow' },
+            { id: 'bigroom', name: 'Big Room', bpm: 128, color: 'border-neonPurple' },
+            { id: 'synthwave', name: 'Synthwave', bpm: 118, color: 'border-neonCyan' }
+        ];
+
+        const INSTRUMENTS = ['Acid Bass 303', 'Vocal Chops', 'Punchy Kick', 'Synthesizer Lead', 'Sub Bass', 'Club Clap'];
+
+        let selectedGenre = 'techhouse';
+        let selectedInstruments = new Set(['Acid Bass 303', 'Punchy Kick']);
+
+        // Load Saved User State
+        function initStorage() {
+            const saved = localStorage.getItem('tenigin_user_state');
+            if (saved) {
+                try {
+                    userState = JSON.parse(saved);
+                } catch(e) { console.error(e); }
+            }
+            updateUserUI();
+        }
+
+        function saveUserState() {
+            localStorage.setItem('tenigin_user_state', JSON.stringify(userState));
+            updateUserUI();
+        }
+
+        function updateUserUI() {
+            document.getElementById('header-rubles').innerText = `${userState.rubles} ₽`;
+            document.getElementById('header-points').innerText = `${userState.points} б.`;
+            
+            const authNameEl = document.getElementById('auth-username');
+            if (userState.loggedIn) {
+                authNameEl.innerText = userState.username;
+            } else {
+                authNameEl.innerText = 'Вход';
+            }
+        }
+
+        /* -------------------------------------------------------------
+           2. UI INITIALIZATION & GENRE SELECTORS
+           ------------------------------------------------------------- */
+        function initGenreUI() {
+            const container = document.getElementById('genre-container');
+            container.innerHTML = '';
+
+            GENRES.forEach(g => {
+                const btn = document.createElement('button');
+                btn.type = 'button';
+                btn.className = `genre-btn p-3 rounded-2xl border text-left text-xs font-bold transition-all ${
+                    selectedGenre === g.id 
+                    ? 'bg-neonPurple/20 text-white border-neonPurple neon-glow-purple' 
+                    : 'bg-black/40 text-gray-400 border-gray-800 hover:border-gray-700'
+                }`;
+                btn.onclick = () => selectGenre(g.id, g.bpm);
+                btn.innerHTML = `
+                    <div class="flex items-center justify-between">
+                        <span>${g.name}</span>
+                        <i class="fa-solid fa-circle-play text-[10px] opacity-70"></i>
+                    </div>
+                `;
+                container.appendChild(btn);
+            });
+
+            // Instruments
+            const instContainer = document.getElementById('instruments-container');
+            instContainer.innerHTML = '';
+            INSTRUMENTS.forEach(inst => {
+                const chip = document.createElement('button');
+                chip.type = 'button';
+                const isSelected = selectedInstruments.has(inst);
+                chip.className = `px-3 py-1.5 rounded-xl border text-xs transition-all ${
+                    isSelected
+                    ? 'bg-neonCyan/20 text-neonCyan border-neonCyan font-bold'
+                    : 'bg-black/30 text-gray-400 border-gray-800 hover:text-gray-200'
+                }`;
+                chip.onclick = () => {
+                    if (selectedInstruments.has(inst)) {
+                        selectedInstruments.delete(inst);
+                    } else {
+                        selectedInstruments.add(inst);
+                    }
+                    initGenreUI();
+                };
+                chip.innerText = inst;
+                instContainer.appendChild(chip);
+            });
+        }
+
+        function selectGenre(genreId, bpm) {
+            selectedGenre = genreId;
+            updateBpm(bpm);
+            document.getElementById('bpm-slider').value = bpm;
+            initGenreUI();
+        }
+
+        function updateBpm(val) {
+            document.getElementById('bpm-val').innerText = `${val} BPM`;
+        }
+
+        /* -------------------------------------------------------------
+           3. WEB AUDIO API SYNTHESIZER & AUDIO ENGINE
+           ------------------------------------------------------------- */
+        let audioCtx = null;
+        let isPlaying = false;
+        let audioTimer = null;
+        let audioStartTime = 0;
+        let audioDuration = 30; // 30 sec synth preview
+        let analyser = null;
+        let masterGain = null;
+
+        function initAudioContext() {
+            if (!audioCtx) {
+                const AudioContext = window.AudioContext || window.webkitAudioContext;
+                audioCtx = new AudioContext();
+            }
+            if (audioCtx.state === 'suspended') {
+                audioCtx.resume();
+            }
+        }
+
+        // Synthesize kick, bassline, and lead in browser
+        function playSynthesizedBeat() {
+            initAudioContext();
+            stopAudio();
+
+            isPlaying = true;
+            audioStartTime = audioCtx.currentTime;
+
+            masterGain = audioCtx.createGain();
+            masterGain.gain.setValueAtTime(0.7, audioCtx.currentTime);
+
+            analyser = audioCtx.createAnalyser();
+            analyser.fftSize = 64;
+
+            masterGain.connect(analyser);
+            analyser.connect(audioCtx.destination);
+
+            const bpm = parseInt(document.getElementById('bpm-slider').value) || 128;
+            const beatLen = 60 / bpm;
+
+            // Schedule 30 seconds loop of kicks and synth bass
+            for (let i = 0; i < (audioDuration / beatLen); i++) {
+                const time = audioCtx.currentTime + (i * beatLen);
+
+                // 1. KICK DRUM (Four on the floor)
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(130, time);
+                osc.frequency.exponentialRampToValueAtTime(0.01, time + 0.15);
+                gain.gain.setValueAtTime(1, time);
+                gain.gain.exponentialRampToValueAtTime(0.01, time + 0.15);
+                osc.connect(gain);
+                gain.connect(masterGain);
+                osc.start(time);
+                osc.stop(time + 0.15);
+
+                // 2. OFFBEAT HI-HAT
+                const hatTime = time + (beatLen / 2);
+                const bufferSize = audioCtx.sampleRate * 0.05;
+                const buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
+                const data = buffer.getChannelData(0);
+                for (let j = 0; j < bufferSize; j++) {
+                    data[j] = Math.random() * 2 - 1;
+                }
+                const noise = audioCtx.createBufferSource();
+                noise.buffer = buffer;
+                const filter = audioCtx.createBiquadFilter();
+                filter.type = 'highpass';
+                filter.frequency.value = 7000;
+                const hatGain = audioCtx.createGain();
+                hatGain.gain.setValueAtTime(0.3, hatTime);
+                hatGain.gain.exponentialRampToValueAtTime(0.01, hatTime + 0.05);
+                noise.connect(filter);
+                filter.connect(hatGain);
+                hatGain.connect(masterGain);
+                noise.start(hatTime);
+
+                // 3. SYNTH BASSLINE (Acid 303 Sawtooth)
+                const bassOsc = audioCtx.createOscillator();
+                const bassFilter = audioCtx.createBiquadFilter();
+                const bassGain = audioCtx.createGain();
+                
+                bassOsc.type = 'sawtooth';
+                const baseFreq = (i % 4 === 3) ? 110 : 55; // A1 or A2 pitch variation
+                bassOsc.frequency.setValueAtTime(baseFreq, time + 0.1);
+                
+                bassFilter.type = 'lowpass';
+                bassFilter.frequency.setValueAtTime(400, time + 0.1);
+                bassFilter.frequency.exponentialRampToValueAtTime(3000, time + 0.2);
+                bassFilter.Q.value = 6;
+
+                bassGain.gain.setValueAtTime(0, time + 0.1);
+                bassGain.gain.linearRampToValueAtTime(0.5, time + 0.15);
+                bassGain.gain.exponentialRampToValueAtTime(0.01, time + 0.35);
+
+                bassOsc.connect(bassFilter);
+                bassFilter.connect(bassGain);
+                bassGain.connect(masterGain);
+
+                bassOsc.start(time + 0.1);
+                bassOsc.stop(time + 0.35);
+            }
+
+            // Update UI State
+            document.getElementById('play-icon').className = 'fa-solid fa-pause text-lg ml-0.5';
+            document.getElementById('play-pause-btn').disabled = false;
+            document.getElementById('stop-btn').disabled = false;
+            document.getElementById('download-btn').disabled = false;
+            document.getElementById('player-status-badge').innerText = 'Воспроизведение';
+            document.getElementById('player-status-badge').className = 'text-[10px] font-mono uppercase bg-neonCyan/20 text-neonCyan border border-neonCyan/40 px-2 py-0.5 rounded';
+
+            // Start Animation Visualizer & Progress Timer
+            startCanvasVisualizer();
+            trackProgress();
+        }
+
+        function togglePlay() {
+            if (!isPlaying) {
+                playSynthesizedBeat();
+            } else {
+                stopAudio();
+            }
+        }
+
+        function stopAudio() {
+            isPlaying = false;
+            if (audioCtx) {
+                audioCtx.close();
+                audioCtx = null;
+            }
+            if (audioTimer) clearInterval(audioTimer);
+
+            document.getElementById('play-icon').className = 'fa-solid fa-play text-lg ml-0.5';
+            document.getElementById('audio-progress').style.width = '0%';
+            document.getElementById('audio-time').innerText = '00:00 / 00:30';
+            document.getElementById('player-status-badge').innerText = 'Пауза';
+            document.getElementById('player-status-badge').className = 'text-[10px] font-mono uppercase bg-gray-800 text-gray-400 px-2 py-0.5 rounded';
+        }
+
+        function trackProgress() {
+            if (audioTimer) clearInterval(audioTimer);
+            audioTimer = setInterval(() => {
+                if (!isPlaying || !audioCtx) return;
+                const elapsed = audioCtx.currentTime - audioStartTime;
+                if (elapsed >= audioDuration) {
+                    stopAudio();
+                    return;
+                }
+                const pct = (elapsed / audioDuration) * 100;
+                document.getElementById('audio-progress').style.width = `${pct}%`;
+                
+                const currentSec = Math.floor(elapsed).toString().padStart(2, '0');
+                document.getElementById('audio-time').innerText = `00:${currentSec} / 00:30`;
+            }, 200);
+        }
+
+        /* -------------------------------------------------------------
+           4. AUDIO CANVAS VISUALIZER
+           ------------------------------------------------------------- */
+        function startCanvasVisualizer() {
+            const canvas = document.getElementById('visualizer-canvas');
+            const placeholder = document.getElementById('visualizer-placeholder');
+            placeholder.classList.add('hidden');
+
+            const ctx = canvas.getContext('2d');
+            canvas.width = canvas.parentElement.clientWidth;
+            canvas.height = canvas.parentElement.clientHeight;
+
+            function draw() {
+                if (!isPlaying || !analyser) {
+                    ctx.clearRect(0, 0, canvas.width, canvas.height);
+                    return;
+                }
+
+                requestAnimationFrame(draw);
+
+                const bufferLength = analyser.frequencyBinCount;
+                const dataArray = new Uint8Array(bufferLength);
+                analyser.getByteFrequencyData(dataArray);
+
+                ctx.fillStyle = 'rgba(8, 9, 13, 0.3)';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+                const barWidth = (canvas.width / bufferLength) * 2.2;
+                let x = 0;
+
+                for (let i = 0; i < bufferLength; i++) {
+                    const barHeight = (dataArray[i] / 255) * canvas.height * 0.85;
+
+                    const gradient = ctx.createLinearGradient(0, canvas.height, 0, 0);
+                    gradient.addColorStop(0, '#9d4edd');
+                    gradient.addColorStop(0.5, '#ff007f');
+                    gradient.addColorStop(1, '#00f5d4');
+
+                    ctx.fillStyle = gradient;
+                    ctx.fillRect(x, canvas.height - barHeight, barWidth - 2, barHeight);
+
+                    x += barWidth;
+                }
+            }
+
+            draw();
+        }
+
+        /* -------------------------------------------------------------
+           5. GEMINI AI GENERATION INTEGRATION
+           ------------------------------------------------------------- */
+        async function startHitGeneration() {
+            // Check user balance (Need 10 points = 100 RUB)
+            if (userState.points < 10) {
+                showToast('Недостаточно баллов! Пополните баланс.', 'error');
+                openTopUpModal();
+                return;
+            }
+
+            // Deduct Points
+            userState.points -= 10;
+            userState.rubles = userState.points * 10;
+            saveUserState();
+
+            // Show Loader Overlay
+            const loader = document.getElementById('generation-loader');
+            const loaderText = document.getElementById('loader-step-text');
+            loader.classList.remove('hidden');
+
+            const lyricsInput = document.getElementById('song-lyrics').value.trim() || 'Ночные огни, клубный бас и бесконечный ритм танца';
+            const styleName = document.getElementById('custom-style').value.trim() || GENRES.find(g => g.id === selectedGenre).name;
+            const bpm = document.getElementById('bpm-slider').value;
+            const mood = document.getElementById('mood-select').value;
+            const insts = Array.from(selectedInstruments).join(', ');
+
+            // Simulated step 1
+            loaderText.innerText = 'СВЯЗЬ С ИИ GEMINI...';
+
+            try {
+                // Call Gemini API to refine lyrics and track structure
+                const systemPrompt = "Ты — легендарный музыкальный продюсер DJ Tenigin. Твоя задача: написать профессиональные клубные стихотворения/лирику и дать краткую рекомендацию по сведению трека.";
+                const userQuery = `Создай текст клубного хита в стиле ${styleName} (${bpm} BPM). Тема/Слова: "${lyricsInput}". Настроение: ${mood}. Акценты: ${insts}.`;
+
+                const apiKey = "";
+                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=${apiKey}`;
+
+                let aiLyrics = "";
+                let aiTip = "";
+
+                try {
+                    const response = await fetch(apiUrl, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            contents: [{ parts: [{ text: userQuery }] }],
+                            systemInstruction: { parts: [{ text: systemPrompt }] }
+                        })
+                    });
+                    const result = await response.json();
+                    const text = result?.candidates?.[0]?.content?.parts?.[0]?.text;
+
+                    if (text) {
+                        aiLyrics = text;
+                        aiTip = `DJ Tenigin Tip: Используй боковую компрессию (Sidechain) на басу от кика на ${bpm} BPM для создания качающего кача.`;
+                    } else {
+                        throw new Error("Empty AI response");
+                    }
+                } catch(err) {
+                    // Fallback generator if API offline or limit reached
+                    aiLyrics = `[DROP / CHORUS]\n${lyricsInput.toUpperCase()}\n\n[VERSE]\nНочный пульс бьет в 128 BPM,\nНеоновый свет затмевает стены.\nМы растворяемся в звуке сполна,\nЭтот клубный хит накрывает как волна!`;
+                    aiTip = `DJ Tenigin Tip: Добавь саб-бас и подрежь низкие частоты на лид-синтезаторе.`;
+                }
+
+                // Step 2
+                loaderText.innerText = 'СИНТЕЗ ЗВУКОВОГО ДВИЖКА...';
+                await new Promise(r => setTimeout(r, 1200));
+
+                // Render AI Card Results
+                document.getElementById('ai-genre-badge').innerText = `${styleName} | ${bpm} BPM`;
+                document.getElementById('ai-generated-lyrics').innerText = aiLyrics;
+                document.getElementById('ai-mixing-tip').innerText = aiTip;
+                document.getElementById('now-playing-title').innerText = `DJ Tenigin - ${styleName} Hit`;
+
+                document.getElementById('ai-output-card').classList.remove('hidden');
+
+                loader.classList.add('hidden');
+                showToast('Хит успешно сгенерирован!', 'success');
+
+                // Auto Start Audio Synth
+                playSynthesizedBeat();
+
+            } catch(e) {
+                loader.classList.add('hidden');
+                showToast('Ошибка генерации трека.', 'error');
+            }
+        }
+
+        async function generateAiIdea() {
+            const ideas = [
+                "Неоновый закат над мегаполисом, мы летим на скорости по ночному шоссе.",
+                "Стробоскопы, плотный бас 303, полная свобода движения на главном танцполе страны.",
+                "Киберпанк атмосфера, фантомные тени и сияющие лазеры в темноте.",
+                "Deep House вайб, морской бриз, закат на Ибице и мягкий синтезаторный пэд."
+            ];
+            const randomIdea = ideas[Math.floor(Math.random() * ideas.length)];
+            document.getElementById('song-lyrics').value = randomIdea;
+            showToast('Идея сгенерирована!', 'info');
+        }
+
+        /* -------------------------------------------------------------
+           6. DOWNLOAD TRACK SIMULATION
+           ------------------------------------------------------------- */
+        function downloadSyntheticTrack() {
+            showToast('Подготовка WAV файла...', 'info');
+            setTimeout(() => {
+                const dummyContent = "RIFF....WAVEfmt ....data....";
+                const blob = new Blob([dummyContent], { type: 'audio/wav' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `Dj_Tenigin_Hit_${Date.now()}.wav`;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                showToast('Файл скачан на устройство!', 'success');
+            }, 1000);
+        }
+
+        /* -------------------------------------------------------------
+           7. MODALS & PAYMENT HANDLERS
+           ------------------------------------------------------------- */
+        function openTopUpModal() {
+            document.getElementById('topup-modal').classList.remove('hidden');
+            calculatePointsFromInput(document.getElementById('ruble-amount-input').value);
+        }
+        function closeTopUpModal() {
+            document.getElementById('topup-modal').classList.add('hidden');
+        }
+
+        function openAuthModal() {
+            document.getElementById('auth-modal').classList.remove('hidden');
+        }
+        function closeAuthModal() {
+            document.getElementById('auth-modal').classList.add('hidden');
+        }
+
+        function calculatePointsFromInput(val) {
+            const rubles = parseInt(val) || 0;
+            const pts = Math.floor(rubles / 10);
+            const songs = Math.floor(pts / 10);
+            document.getElementById('calculated-points-badge').innerText = `${pts} баллов (${songs} треков)`;
+        }
+
+        function processCardPayment() {
+            const rubInput = parseInt(document.getElementById('ruble-amount-input').value) || 0;
+            if (rubInput < 100) {
+                showToast('Минимальная сумма пополнения — 100 ₽', 'error');
+                return;
+            }
+
+            const addedPoints = Math.floor(rubInput / 10);
+            userState.rubles += rubInput;
+            userState.points += addedPoints;
+            saveUserState();
+
+            closeTopUpModal();
+            showToast(`Успешно! Пополнено на ${rubInput} ₽ (+${addedPoints} б.)`, 'success');
+        }
+
+        function handleAuthSubmit(e) {
+            e.preventDefault();
+            const name = document.getElementById('auth-name-input').value.trim();
+            const email = document.getElementById('auth-email-input').value.trim();
+
+            userState.loggedIn = true;
+            userState.username = name || 'DJ Producer';
+            userState.email = email;
+            saveUserState();
+
+            closeAuthModal();
+            showToast(`Добро пожаловать, ${userState.username}!`, 'success');
+        }
+
+        /* -------------------------------------------------------------
+           8. TOAST NOTIFICATION SYSTEM
+           ------------------------------------------------------------- */
+        function showToast(msg, type = 'info') {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+
+            let colors = 'border-neonCyan text-white bg-black/90';
+            let icon = 'fa-circle-info text-neonCyan';
+
+            if (type === 'success') {
+                colors = 'border-emerald-500 text-white bg-black/90';
+                icon = 'fa-circle-check text-emerald-400';
+            } else if (type === 'error') {
+                colors = 'border-neonPink text-white bg-black/90';
+                icon = 'fa-triangle-exclamation text-neonPink';
+            }
+
+            toast.className = `flex items-center gap-3 px-4 py-3 rounded-2xl border backdrop-blur-md shadow-2xl transition-all duration-300 transform translate-y-4 opacity-0 text-xs font-bold ${colors}`;
+            toast.innerHTML = `<i class="fa-solid ${icon} text-base"></i><span>${msg}</span>`;
+
+            container.appendChild(toast);
+
+            setTimeout(() => {
+                toast.classList.remove('translate-y-4', 'opacity-0');
+            }, 10);
+
+            setTimeout(() => {
+                toast.classList.add('opacity-0', 'translate-y-2');
+                setTimeout(() => toast.remove(), 300);
+            }, 3500);
+        }
+
+        /* Initial Setup */
+        window.onload = function() {
+            initStorage();
+            initGenreUI();
+        };
+    </script>
+</body>
+</html>
