@@ -163,8 +163,9 @@ button:disabled{opacity:.5;cursor:not-allowed}
 
   <section aria-labelledby="h-api">
     <h2 id="h-api">Подключение</h2>
-    <label class="l" for="apiKey" id="keyL" style="margin-top:0">Ключ Gemini API</label>
-    <input type="password" id="apiKey" autocomplete="off">
+    <div id="keyStatus" class="sum" hidden style="margin-top:0"></div>
+    <div id="keyBox"><label class="l" for="apiKey" id="keyL" style="margin-top:0">Ключ Gemini API</label>
+    <input type="password" id="apiKey" autocomplete="off"></div>
     <div class="hint" id="apiHint">Ключ уходит напрямую в Google из вашего браузера и виден во вкладке «Сеть». Для публичного сайта проксируйте запросы через свой сервер и храните ключ там.</div>
   </section>
 
@@ -295,7 +296,7 @@ function buildPayload(){
   };
 }
 function validate(p){
-  if(!$("apiKey").value.trim())return"Введите ключ Gemini API.";
+  if(!serverKey&&!$("apiKey").value.trim())return"Введите ключ Gemini API.";
   if(MODES[state.mode].req&&!p.text)return"Заполните поле «"+MODES[state.mode].t+"».";
   if(!p.text&&!p.style)return"Добавьте описание или стиль.";
   return null;
@@ -305,9 +306,9 @@ async function lyriaGenerate(p,sig){
   const prompt=[MODES[p.action].intro+p.text,p.style&&"Style, genres and instruments: "+p.style,p.negative_style&&"Avoid: "+p.negative_style,p.title!=="Без названия"&&"Title: "+p.title].filter(Boolean).join("\n");
   for(let i=0;i<p.count;i++){
     setProgress(Math.round(i/p.count*90)+5);setStatus(`Lyria: трек ${i+1} из ${p.count}…`);
-    const r=await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${MODEL}:generateContent`,{
+    const r=await fetch(serverKey?"/api/generate":`https://generativelanguage.googleapis.com/v1beta/models/${MODEL}:generateContent`,{
       method:"POST",signal:sig,
-      headers:{"Content-Type":"application/json","x-goog-api-key":key},
+      headers:serverKey?{"Content-Type":"application/json"}:{"Content-Type":"application/json","x-goog-api-key":key},
       body:JSON.stringify({contents:[{parts:[{text:prompt}]}],generationConfig:{responseModalities:["AUDIO","TEXT"]}})
     });
     if(!r.ok){
@@ -400,6 +401,19 @@ $("bBeat").onclick=async()=>{
   if(beatTimer){clearInterval(beatTimer);beatTimer=null;$("bBeat").textContent="▶ Запустить бит";return}
   step=0;nextT=c.currentTime+0.05;beatTimer=setInterval(sched,25);$("bBeat").textContent="⏹ Остановить";
 };
+
+/* Ключ на сервере: если сервер сообщает, что GEMINI_API_KEY настроен, поле ключа скрывается */
+let serverKey=false;
+(async()=>{
+  try{
+    const d=await (await fetch("/api/status")).json();
+    if(d&&d.configured){
+      serverKey=true;$("keyBox").hidden=true;
+      $("keyStatus").hidden=false;$("keyStatus").textContent="Ключ Gemini настроен на сервере: "+d.maskedKey;
+      $("apiHint").textContent="Запросы идут через ваш сервер, ключ в браузер не попадает.";
+    }
+  }catch(e){}
+})();
 
 renderSaved();
 applyMode();
