@@ -173,6 +173,22 @@ button:disabled{opacity:.5;cursor:not-allowed}
   <div class="bar" hidden id="barWrap"><i id="bar"></i></div>
   <div id="status" role="status" aria-live="polite"></div>
   <div id="results"></div>
+
+  <section aria-labelledby="h-synth" style="margin-top:24px">
+    <h2 id="h-synth">Живой синтезатор: звук без ключа</h2>
+    <div class="hint" style="margin:0 0 12px">Работает прямо в браузере, без Gemini API: бочка, арпеджио и бит с регулируемым темпом.</div>
+    <div class="row">
+      <button class="btn ghost" id="bKick" type="button">Бочка</button>
+      <button class="btn ghost" id="bArp" type="button">Арпеджио</button>
+      <button class="btn" id="bBeat" type="button">▶ Запустить бит</button>
+    </div>
+    <div class="two">
+      <div><label class="l" for="bpmR">Темп: <span id="bpmV">124</span> BPM</label>
+        <input type="range" id="bpmR" min="80" max="160" value="124" style="width:100%;accent-color:var(--accent)"></div>
+      <div><label class="l" for="scaleS">Лад</label>
+        <select id="scaleS"><option value="min">Минор</option><option value="maj">Мажор</option></select></div>
+    </div>
+  </section>
 </main>
 
 <script>
@@ -338,6 +354,52 @@ $("go").onclick=async()=>{
   }
 };
 $("cancel").onclick=()=>state.ctrl&&state.ctrl.abort();
+
+/* Живой синтезатор на Web Audio API */
+let actx=null;const ac=()=>actx||(actx=new(window.AudioContext||window.webkitAudioContext)());
+function kick(t=ac().currentTime){
+  const c=ac(),o=c.createOscillator(),g=c.createGain();
+  o.frequency.setValueAtTime(150,t);o.frequency.exponentialRampToValueAtTime(0.01,t+0.3);
+  g.gain.setValueAtTime(1,t);g.gain.exponentialRampToValueAtTime(0.001,t+0.3);
+  o.connect(g);g.connect(c.destination);o.start(t);o.stop(t+0.3);
+}
+function hat(t){
+  const c=ac(),b=c.createBuffer(1,c.sampleRate*0.05,c.sampleRate),d=b.getChannelData(0);
+  for(let i=0;i<d.length;i++)d[i]=Math.random()*2-1;
+  const n=c.createBufferSource(),f=c.createBiquadFilter(),g=c.createGain();
+  n.buffer=b;f.type="highpass";f.frequency.value=7000;
+  g.gain.setValueAtTime(0.25,t);g.gain.exponentialRampToValueAtTime(0.001,t+0.05);
+  n.connect(f);f.connect(g);g.connect(c.destination);n.start(t);
+}
+function tone(f,t,dur){
+  const c=ac(),o=c.createOscillator(),g=c.createGain();
+  o.type="triangle";o.frequency.setValueAtTime(f,t);
+  g.gain.setValueAtTime(0.001,t);g.gain.exponentialRampToValueAtTime(0.3,t+0.03);g.gain.exponentialRampToValueAtTime(0.001,t+dur);
+  o.connect(g);g.connect(c.destination);o.start(t);o.stop(t+dur);
+}
+const SCALES={min:[261.63,311.13,392.00,523.25,392.00,311.13,466.16,392.00],maj:[261.63,329.63,392.00,493.88,523.25,493.88,392.00,329.63]};
+const bpm=()=>+$("bpmR").value;
+$("bpmR").oninput=()=>{$("bpmV").textContent=bpm()};
+$("bKick").onclick=async()=>{await ac().resume();kick()};
+$("bArp").onclick=async()=>{
+  const c=ac();await c.resume();const now=c.currentTime,sc=SCALES[$("scaleS").value];
+  sc.slice(0,5).forEach((f,i)=>tone(f,now+i*0.2,0.4));
+};
+let beatTimer=null,step=0,nextT=0;
+function sched(){
+  const c=ac(),spb=60/bpm()/4,sc=SCALES[$("scaleS").value];
+  while(nextT<c.currentTime+0.15){
+    if(step%4===0)kick(nextT);
+    if(step%2===1)hat(nextT);
+    tone(sc[step%sc.length],nextT,spb*1.8);
+    step++;nextT+=spb;
+  }
+}
+$("bBeat").onclick=async()=>{
+  const c=ac();await c.resume();
+  if(beatTimer){clearInterval(beatTimer);beatTimer=null;$("bBeat").textContent="▶ Запустить бит";return}
+  step=0;nextT=c.currentTime+0.05;beatTimer=setInterval(sched,25);$("bBeat").textContent="⏹ Остановить";
+};
 
 renderSaved();
 applyMode();
